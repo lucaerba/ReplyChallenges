@@ -17,3 +17,6 @@ int main() {
 void readFile(){
 
 }
+void printFile(){
+
+}

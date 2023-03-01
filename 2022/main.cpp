@@ -3,8 +3,12 @@
 //
 
 #include "main.h"
-int main(){
-    printf("hello word");
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!";
     return 0;
 }
-

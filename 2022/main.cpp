@@ -15,6 +15,6 @@ int main() {
 void readFile(){
     int i;
     for (int j = 0; j < 42; ++j) {
-        cout << "Manuel merda";
+        cout << "Manuel culo";
     }
 }

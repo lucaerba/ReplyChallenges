@@ -57,35 +57,41 @@ void printOut() {
 }
 
 void findBestFromScore(){
-    int best;
+    Build best = Build(0,0,0,0,-1);
     int dist, dist_best;
     int p_old, p_new;
+    vector<Build> builds_sort = vector<Build> (builds);
 
-    sort(builds.begin(), builds.end(), compareLatency);
+    sort(builds_sort.begin(), builds_sort.end(), compareLatency);
 
     for(auto a:antennas){
-        best = -1;
-        for(auto b: builds){
-            if(b.placed)
+        best = Build(0,0,0,0,-1);
+        for(auto b: builds_sort){
+            if(builds.at(b.id).placed)
                 continue;
 
-            if(best<0) best = b.id;
-            dist_best = abs(a.x-builds.at(best).x)+abs(a.y-builds.at(best).y);
-            dist= abs(a.x-b.x)+abs(a.y-b.y);
-            p_old= a.c * builds.at(best).c - dist_best * builds.at(best).l;
+            if(b.id == 267){
+                cout << "WTF";
+                cout << "diocan";
+            }
+
+            if(best.id<0) best = b;
+
+            dist_best = abs(a.x-best.x)+abs(a.y-best.y);
+            dist = abs(a.x-b.x)+abs(a.y-b.y);
+            p_old = a.c * best.c - dist_best * best.l;
             p_new = a.c * b.c - dist * b.l;
-            if((p_new > (p_old)))
-                best = b.id;
+
+            if(p_new > p_old)
+                best = b;
         }
-        if(best>=0){
-            Build b = builds.at(best);
-            builds.at(best).placed = 1;
-            a.x = b.x;
-            a.y = b.y;
+        if(best.id >= 0){
+            builds.at(best.id).placed = 1;
+            a.x = best.x;
+            a.y = best.y;
             output.push_back(a);
         }
     }
-
 }
 
 void findBest() {

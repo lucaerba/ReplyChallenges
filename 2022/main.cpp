@@ -10,8 +10,8 @@ using namespace std;
 
 void readFile();
 void findBest();
-
 void printOut();
+void findBestFromScore();
 
 class Build{
 
@@ -33,7 +33,9 @@ public:
 
 
 long long int W, H, N, M, R; //width, height,
-bool compareLatency( Build i, Build j) return i.l<j.l;
+bool compareLatency( Build i, Build j) {
+    return i.l<j.l;
+}
 vector<Build> builds;
 vector<Antenna> antennas;
 vector<Antenna> output;
@@ -56,9 +58,11 @@ void printOut() {
 
 void findBestFromScore(){
     int best;
-    int dist;
+    int dist, dist_best;
     int p_old, p_new;
-    builds.sort(builds.begin(), builds.end(), compareLatency);
+
+    sort(builds.begin(), builds.end(), compareLatency);
+
     for(auto a:antennas){
         best = -1;
         for(auto b: builds){
@@ -66,11 +70,11 @@ void findBestFromScore(){
                 continue;
 
             if(best<0) best = b.id;
-            dist_best= abs(a.x-builds.at(best).x)+abs(a.y-builds.at(best).y);
+            dist_best = abs(a.x-builds.at(best).x)+abs(a.y-builds.at(best).y);
             dist= abs(a.x-b.x)+abs(a.y-b.y);
             p_old= a.c * builds.at(best).c - dist_best * builds.at(best).l;
             p_new = a.c * b.c - dist * b.l;
-            if((p_new > (p_old)
+            if((p_new > (p_old)))
                 best = b.id;
         }
         if(best>=0){

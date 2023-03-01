@@ -19,5 +19,5 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-
+#include <algorithm>
 #endif //III_LIBRARIES_H

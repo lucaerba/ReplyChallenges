@@ -78,7 +78,7 @@ void findBest() {
 }
 
 void readFile(){
-    ifstream fp_in("/home/lucaerba/CLionProjects/ReplyChallenges/2022/input.txt", ios::in);
+    ifstream fp_in("/home/lucaerba/CLionProjects/ReplyChallenges/2022/input4.in", ios::in);
     int x,y,l,c,r;
 
     if(fp_in.is_open()){

@@ -3,7 +3,7 @@
 //
 
 #include "main.h"
-#include "../libraries.h"
+#include "libraries.h"
 using namespace std;
 
 int main() {

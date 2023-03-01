@@ -18,6 +18,3 @@ void readFile(){
         cout << "Manuel merda";
     }
 }
-void printFile(){
-
-}

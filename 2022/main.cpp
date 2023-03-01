@@ -13,3 +13,7 @@ int main() {
     cout << "Luca culo";
     return 0;
 }
+
+void readFile(){
+
+}

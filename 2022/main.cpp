@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 }
 
 void printOut() {
-    ofstream fp_out("/home/lucaerba/CLionProjects/ReplyChallenges/2022/output.txt", ios::out);
+    ofstream fp_out("/home/lucaerba/CLionProjects/ReplyChallenges1/2022/output.txt", ios::out);
 
     fp_out << output.size() << "\n";
     for(auto o: output){

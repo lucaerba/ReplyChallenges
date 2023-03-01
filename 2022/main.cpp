@@ -4,20 +4,25 @@
 
 #include "main.h"
 #include "libraries.h"
+
 using namespace std;
+void readFile();
 
 int main() {
-    cout << "Hello World!";
-    cout << "Luca culo";
+    readFile();
     return 0;
 }
 
 void readFile(){
     int i;
+    srand(time(NULL));
+    #pragma omp parallel for
     for (int j = 0; j < 42; ++j) {
-        cout << "Manuel merda";
+        cout << j << "\n";
+        sleep(rand()%10);
     }
 }
+
 void printFile(){
 
 }

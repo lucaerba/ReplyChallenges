@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 }
 
 void printOut() {
-    ofstream fp_out("/Users/manuelfissore/Documents/reply/III_2/prova.txt", ios::out);
+    ofstream fp_out("/home/lucaerba/CLionProjects/ReplyChallenges1/2022/prova.txt", ios::out);
 
     fp_out << output.size() << "\n";
     for(auto o: output){
@@ -230,7 +230,7 @@ void findBest() {
 }
 */
 void readFile(){
-    ifstream fp_in("/Users/manuelfissore/Documents/reply/III_2/input4.in", ios::in);
+    ifstream fp_in("/home/lucaerba/CLionProjects/ReplyChallenges1/2022/input4.in", ios::in);
     int x,y,l,c,r;
 
     if(fp_in.is_open()){

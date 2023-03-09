@@ -1,6 +1,7 @@
 #include "libraries.h"
 
 using namespace std;
+void printOut();
 
 class Point{
 public: int x, y;
@@ -26,5 +27,15 @@ public: string path;
 int main(const int argc, const char * argv[]) {
     cout << "prova";
     return 0;
+}
+
+void printOut(){
+    ofstream fp_out("./output.txt", ios::out);
+    for(auto s:snakes) {
+        fp_out << s.start.x + " " + s.start.y + " ";
+        for (auto v: s.path)
+            fp_out << v + " ";
+    }
+    fp_out << "\n";
 }
 

@@ -1,6 +1,7 @@
 #include "libraries.h"
 
 using namespace std;
+void printOut();
 
 class Point{
 public: int x, y;
@@ -35,6 +36,10 @@ Point** matr;
 
 
 
+};
+
+void findSolution();
+void optimizeSolution();
 
 int main(const int argc, const char * argv[]) {
     cout << "prova";
@@ -70,3 +75,20 @@ void readInput() {
     }
     file.close();
 }
+void findSolution(){
+
+}
+void optimizeSolution(){
+
+}
+
+void printOut(){
+    ofstream fp_out("./output.txt", ios::out);
+    for(auto s:snakes) {
+        fp_out << s.start.x << " " << s.start.y << " ";
+        for (auto v: s.path)
+            fp_out << v << " ";
+        fp_out << "\n";
+    }
+}
+

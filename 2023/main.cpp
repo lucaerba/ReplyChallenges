@@ -23,9 +23,8 @@ public: Point start;
 public: string path;
 };
 
-
 int main(const int argc, const char * argv[]) {
-    //TODO: enjoy
+    cout << "prova";
     return 0;
 }
 

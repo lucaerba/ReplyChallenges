@@ -1,7 +1,11 @@
 #include "libraries.h"
 #define INPUT "./2023/00-example.txt"
 using namespace std;
-void printOut();
+
+template<typename Base, typename T>
+inline bool instanceof(const T *ptr) {
+    return dynamic_cast<const Base*>(ptr) != nullptr;
+}
 
 class Point{
 public: int x, y;
@@ -30,6 +34,7 @@ public:
 };
 
 int C, R, S;
+char dir;
 vector<Snake> snakes;
 vector<Valuable> relevance;
 vector<Warmhole> wormholes;
@@ -40,6 +45,9 @@ Point** matr;
 void findSolution();
 void optimizeSolution();
 void readInput();
+void printOut();
+Valuable findBest();
+
 bool compareValue(Valuable v1, Valuable v2){
     return v1.value > v2.value;
 }
@@ -83,17 +91,32 @@ void readInput() {
     }
     file.close();
 }
+Valuable findBest(Point v){
+    Point *ret;
+    char flag;
+    int score, maxscore;
+    if(v.y<R-1)
+        ret=matr[v.x+1+C*v.y];
+    else
+        ret=matr[C*v.y];
+    flag=R;
+    if(instanceof<Valuable>(ret))
+        score= ((Valuable*) ret)->value;
+    //else
+    maxscore=score;
+    if(v.x<C-1)
+        ret=matr[v.x+C*(v.y+1)];
+    else
+        ret=matr[v.x+C*(v.y+1)];
+}
+
 void findSolution(){
     for(auto s: snakes){
         Valuable v = relevance.at(0);
         relevance.erase(relevance.begin());
         int l = s.l-1;
         while(l > 0){
-            if(v.y<R-1)
-                matr[v.x+1+C*v.y];
-            if(v.x<C-1)
-                matr[v.x+C*(v.y+1)];
-            if()
+
         }
     }
 }

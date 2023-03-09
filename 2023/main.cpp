@@ -22,20 +22,31 @@ class Snake{
 public: int id;
 public: Point start;
 public: string path;
+
 };
+
+void findSolution();
+void optimizeSolution();
 
 int main(const int argc, const char * argv[]) {
     cout << "prova";
     return 0;
 }
 
+void findSolution(){
+
+}
+void optimizeSolution(){
+
+}
+
 void printOut(){
     ofstream fp_out("./output.txt", ios::out);
     for(auto s:snakes) {
-        fp_out << s.start.x + " " + s.start.y + " ";
+        fp_out << s.start.x << " " << s.start.y << " ";
         for (auto v: s.path)
-            fp_out << v + " ";
+            fp_out << v << " ";
+        fp_out << "\n";
     }
-    fp_out << "\n";
 }
 

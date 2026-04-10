@@ -3,21 +3,23 @@ Langfuse trace checker - query and analyze traces by session ID.
 
 Usage: python main.py <session_id>
 
-Langfuse automatically tracks your agent's token usage, costs, and latency. 
-You just need to set up the environment variables (LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST), 
-use the @observe() decorator and CallbackHandler() in your code, and generate a unique session ID for each run. 
-Langfuse handles the rest. For the full setup and code examples, refer to 
+Langfuse automatically tracks your agent's token usage, costs, and latency.
+You just need to set up the environment variables (LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST),
+use the @observe() decorator and CallbackHandler() in your code, and generate a unique session ID for each run.
+Langfuse handles the rest. For the full setup and code examples, refer to
 "Resource Management & Toolkit for the Challenge" in the Learn & Train section.
 """
 
 import os
 import sys
+from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
+
 from dotenv import load_dotenv
 from langfuse import Langfuse
-from datetime import datetime
-from collections import defaultdict
 
-load_dotenv()
+load_dotenv(Path(__file__).with_name(".env"))
 
 if not all([os.getenv("LANGFUSE_PUBLIC_KEY"), os.getenv("LANGFUSE_SECRET_KEY")]):
     raise ValueError("Missing Langfuse credentials in .env")
@@ -25,7 +27,7 @@ if not all([os.getenv("LANGFUSE_PUBLIC_KEY"), os.getenv("LANGFUSE_SECRET_KEY")])
 client = Langfuse(
     public_key=os.getenv("LANGFUSE_PUBLIC_KEY"),
     secret_key=os.getenv("LANGFUSE_SECRET_KEY"),
-    host=os.getenv("LANGFUSE_HOST", "https://cloud.langfuse.com")
+    host=os.getenv("LANGFUSE_HOST", "https://cloud.langfuse.com"),
 )
 
 
@@ -48,7 +50,7 @@ def get_trace_info(session_id):
     observations = []
     for trace in traces:
         detail = client.api.trace.get(trace.id)
-        if detail and hasattr(detail, 'observations'):
+        if detail and hasattr(detail, "observations"):
             observations.extend(detail.observations)
 
     if not observations:
@@ -56,7 +58,9 @@ def get_trace_info(session_id):
 
     sorted_obs = sorted(
         observations,
-        key=lambda o: o.start_time if hasattr(o, 'start_time') and o.start_time else datetime.min
+        key=lambda o: (
+            o.start_time if hasattr(o, "start_time") and o.start_time else datetime.min
+        ),
     )
 
     counts = defaultdict(int)
@@ -64,35 +68,35 @@ def get_trace_info(session_id):
     total_time = 0
 
     for obs in observations:
-        if hasattr(obs, 'type') and obs.type == 'GENERATION':
-            model = getattr(obs, 'model', 'unknown') or 'unknown'
+        if hasattr(obs, "type") and obs.type == "GENERATION":
+            model = getattr(obs, "model", "unknown") or "unknown"
             counts[model] += 1
 
-            if hasattr(obs, 'calculated_total_cost') and obs.calculated_total_cost:
+            if hasattr(obs, "calculated_total_cost") and obs.calculated_total_cost:
                 costs[model] += obs.calculated_total_cost
 
-            if hasattr(obs, 'start_time') and hasattr(obs, 'end_time'):
+            if hasattr(obs, "start_time") and hasattr(obs, "end_time"):
                 if obs.start_time and obs.end_time:
                     total_time += (obs.end_time - obs.start_time).total_seconds()
 
     first_input = ""
-    if sorted_obs and hasattr(sorted_obs[0], 'input'):
+    if sorted_obs and hasattr(sorted_obs[0], "input"):
         inp = sorted_obs[0].input
         if inp:
             first_input = str(inp)[:100]
 
     last_output = ""
-    if sorted_obs and hasattr(sorted_obs[-1], 'output'):
+    if sorted_obs and hasattr(sorted_obs[-1], "output"):
         out = sorted_obs[-1].output
         if out:
             last_output = str(out)[:100]
 
     return {
-        'counts': dict(counts),
-        'costs': dict(costs),
-        'time': total_time,
-        'input': first_input,
-        'output': last_output
+        "counts": dict(counts),
+        "costs": dict(costs),
+        "time": total_time,
+        "input": first_input,
+        "output": last_output,
     }
 
 
@@ -102,12 +106,12 @@ def print_results(info):
         return
 
     print("\nTrace Count by Model:")
-    for model, count in info['counts'].items():
+    for model, count in info["counts"].items():
         print(f"  {model}: {count}")
 
     print("\nCost by Model:")
     total = 0
-    for model, cost in info['costs'].items():
+    for model, cost in info["costs"].items():
         print(f"  {model}: ${cost:.6f}")
         total += cost
     if total > 0:
@@ -115,10 +119,10 @@ def print_results(info):
 
     print(f"\nTotal Time: {info['time']:.2f}s")
 
-    if info['input']:
+    if info["input"]:
         print(f"\nInitial Input:\n  {info['input']}")
 
-    if info['output']:
+    if info["output"]:
         print(f"\nFinal Output:\n  {info['output']}")
 
     print()
